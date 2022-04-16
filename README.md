@@ -1,5 +1,5 @@
 # POC go-chi
-POC de um cadastro de produtos
+POC de um cadastro de produtos usando go-chi. Objetivo é testar algumas necessidades que tenho de APIs que monto no dia a dia.
 
 # Run
 
