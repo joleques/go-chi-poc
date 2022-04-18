@@ -5,7 +5,8 @@ import (
 	"github.com/go-chi/chi/v5/middleware"
 	renderChi "github.com/go-chi/render"
 	"github.com/joleques/go-chi-poc/src/application"
-	"github.com/joleques/go-chi-poc/src/infra"
+	"github.com/joleques/go-chi-poc/src/infra/base"
+	"github.com/joleques/go-chi-poc/src/infra/jwt"
 	renderPkg "github.com/unrolled/render"
 	"net/http"
 	"time"
@@ -13,11 +14,12 @@ import (
 
 var render *renderPkg.Render
 
-var dataBase = infra.NewMemoryDataBase()
+var dataBase = base.NewMemoryDataBase()
 
 func main() {
 	render = renderPkg.New()
 	dataBase.Status()
+	auth := jwt.JWT{}.New()
 	r := chi.NewRouter()
 
 	// A good base middleware stack
@@ -26,10 +28,7 @@ func main() {
 	r.Use(middleware.Logger)
 	r.Use(middleware.Recoverer)
 	r.Use(renderChi.SetContentType(renderChi.ContentTypeJSON))
-
-	// Set a timeout value on the request context (ctx), that will signal
-	// through ctx.Done() that the request has timed out and further
-	// processing should be stopped.
+	r.Use(auth.Verifier())
 	r.Use(middleware.Timeout(60 * time.Second))
 
 	r.Get("/", func(w http.ResponseWriter, r *http.Request) {
@@ -37,6 +36,7 @@ func main() {
 	})
 
 	r.Route("/product", func(r chi.Router) {
+		r.Use(auth.Authenticator())
 		r.Post("/", SaveProduct)
 		r.Route("/{productId}", func(r chi.Router) {
 			r.Get("/", GetProduto)

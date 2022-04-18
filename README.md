@@ -28,6 +28,7 @@ docker run -d -p 3000:3000 go-chi-poc:01
 ``` 
 Url: http://localhost:3000/product
 Method: POST
+Authirization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhZ2VudElkIjoxMjEyfQ.uk6SVBcL-YVQWQbVFzvDZU9siiuNXjJq1dcEL6HZPtc
 Content-Type: application/json
 
 Body:{
@@ -47,6 +48,7 @@ Response:{
 ``` 
 Url: http://localhost:3000/product/<id produto>
 Method: GET
+Authirization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhZ2VudElkIjoxMjEyfQ.uk6SVBcL-YVQWQbVFzvDZU9siiuNXjJq1dcEL6HZPtc
 Content-Type: application/json
 
 Response:{
@@ -57,7 +59,6 @@ Response:{
 
 # Falta Testar
 
-- Auth com JWT 
 - Implementar um Middleware de Logs no meu padrão
 
 # Referencias
